@@ -17,13 +17,17 @@ def do_deploy(archive_path):
         return False
     
     archive_name = os.path.basename(archive_path)
+    folder_name = archive_name.split('.')[0]
     
     try:
         with prefix(put(archive_path, "/tmp/")):
-            run("bsdtar -xf /tmp/{} -C /data/web_static/releases/".format(archive_name))
+            run("mkdir -p /data/web_static/releases/{}/".format(folder_name))
+            run("bsdtar -xf /tmp/{} -C /data/web_static/releases/{}/".format(archive_name, folder_name))
             run("rm /tmp/{}".format(archive_name))
-            run("rm /data/web_static/current")
-            run("ln -sf /data/web_static/releases/{} /data/web_static/current".format(archive_name))
+            run("mv /data/web_static/releases/{}/web_static/* /data/web_static/releases/{}/".format(folder_name))
+            run("rm -rf /data/web_static/releases/{}/web_static/".format(folder_name))
+            run("rm -rf /data/web_static/current")
+            run("ln -sf /data/web_static/releases/{}/ /data/web_static/current".format(folder_name))
     except Exception as e:
         print("Operation Failed: {}".format(e))
         return False
