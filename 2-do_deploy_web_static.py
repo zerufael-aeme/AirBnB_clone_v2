@@ -20,14 +20,14 @@ def do_deploy(archive_path):
     folder_name = archive_name.split('.')[0]
     
     try:
-            put(archive_path, "/tmp/")
-            run("mkdir -p /data/web_static/releases/{}/".format(folder_name))
-            run("bsdtar -xf /tmp/{} -C /data/web_static/releases/{}/".format(archive_name, folder_name))
-            run("rm /tmp/{}".format(archive_name))
-            run("mv /data/web_static/releases/{}/web_static/* /data/web_static/releases/{}/".format(folder_name))
-            run("rm -rf /data/web_static/releases/{}/web_static/".format(folder_name))
-            run("rm -rf /data/web_static/current")
-            run("ln -sf /data/web_static/releases/{}/ /data/web_static/current".format(folder_name))
+        put(archive_path, "/tmp/")
+        run("mkdir -p /data/web_static/releases/{}/".format(folder_name))
+        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(archive_name, folder_name))
+        run("rm /tmp/{}".format(archive_name))
+        run("mv /data/web_static/releases/{}/web_static/* /data/web_static/releases/{}/".format(folder_name))
+        run("rm -rf /data/web_static/releases/{}/web_static/".format(folder_name))
+        run("rm -rf /data/web_static/current")
+        run("ln -sf /data/web_static/releases/{}/ /data/web_static/current".format(folder_name))
     except Exception as e:
         print("Operation Failed: {}".format(e))
         return False
