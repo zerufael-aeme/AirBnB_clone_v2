@@ -20,7 +20,7 @@ def do_deploy(archive_path):
     folder_name = archive_name.split('.')[0]
     
     try:
-        with prefix(put(archive_path, "/tmp/")):
+            put(archive_path, "/tmp/")
             run("mkdir -p /data/web_static/releases/{}/".format(folder_name))
             run("bsdtar -xf /tmp/{} -C /data/web_static/releases/{}/".format(archive_name, folder_name))
             run("rm /tmp/{}".format(archive_name))
