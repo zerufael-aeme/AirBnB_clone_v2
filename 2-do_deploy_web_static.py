@@ -3,7 +3,7 @@
 # contents of the web_static folder of your AirBnB Clone repo
 # using the function do_pack
 import os
-from fabric.api import run, put, env
+from fabric.api import run, put, env, prefix
 
 env.hosts = ['52.91.182.253', '52.201.229.108']
 env.user = "ubuntu"
